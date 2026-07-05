@@ -13,10 +13,10 @@ export async function PATCH(request, { params }) {
   }
 
   const db = getDb();
-  const setClause = fields.map((field) => `${field} = ?`).join(", ");
+  const setClause = fields.map((field, i) => `${field} = $${i + 1}`).join(", ");
   const values = fields.map((field) => updates[field]);
 
-  db.prepare(`UPDATE transactions SET ${setClause} WHERE id = ?`).run(...values, id);
+  await db.query(`UPDATE transactions SET ${setClause} WHERE id = $${fields.length + 1}`, [...values, id]);
 
   return NextResponse.json({ ok: true });
 }
@@ -24,6 +24,6 @@ export async function PATCH(request, { params }) {
 export async function DELETE(request, { params }) {
   const { id } = await params;
   const db = getDb();
-  db.prepare(`DELETE FROM transactions WHERE id = ?`).run(id);
+  await db.query(`DELETE FROM transactions WHERE id = $1`, [id]);
   return NextResponse.json({ ok: true });
 }

@@ -10,7 +10,7 @@ export default async function CalendarPage({ searchParams }) {
   const monthStart = new Date(anchor.getFullYear(), anchor.getMonth(), 1);
   const gridStart = startOfMonthGrid(monthStart);
   const gridEnd = addDays(gridStart, 41);
-  const events = listEventsBetween(toISODate(gridStart), toISODate(gridEnd));
+  const events = await listEventsBetween(toISODate(gridStart), toISODate(gridEnd));
 
   return <MonthCalendar monthISO={toISODate(monthStart)} events={events} />;
 }

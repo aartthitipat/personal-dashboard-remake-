@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { createSubscription, listSubscriptions } from "@/lib/subscriptions";
 
 export async function GET() {
-  return NextResponse.json(listSubscriptions());
+  return NextResponse.json(await listSubscriptions());
 }
 
 export async function POST(request) {
@@ -11,6 +11,6 @@ export async function POST(request) {
   if (!name || !amount) {
     return NextResponse.json({ error: "name and amount are required" }, { status: 400 });
   }
-  const id = createSubscription({ name, plan, amount });
+  const id = await createSubscription({ name, plan, amount });
   return NextResponse.json({ id }, { status: 201 });
 }

@@ -6,10 +6,10 @@ import { listSubscriptions } from "@/lib/subscriptions";
 export const dynamic = "force-dynamic";
 
 export default async function FinancesPage() {
-  const summary = getSummary();
-  const transactions = listTransactions();
-  const savingsGoal = getSavingsGoal();
-  const subscriptions = listSubscriptions();
+  const summary = await getSummary();
+  const transactions = await listTransactions();
+  const savingsGoal = await getSavingsGoal();
+  const subscriptions = await listSubscriptions();
 
   return (
     <FinancesDashboard

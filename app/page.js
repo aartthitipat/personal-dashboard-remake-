@@ -22,14 +22,14 @@ function changeFooter(change) {
 
 export default async function Home({ searchParams }) {
   const params = await searchParams;
-  const summary = getSummary();
+  const summary = await getSummary();
   const incomeChange = getMonthOverMonthChange(summary.monthlyBreakdown, "income");
   const expenseChange = getMonthOverMonthChange(summary.monthlyBreakdown, "expense");
 
   const anchor = params.week ? new Date(`${params.week}T00:00:00`) : new Date();
   const weekStart = startOfWeek(anchor);
   const weekEnd = addDays(weekStart, 6);
-  const events = listEventsBetween(toISODate(weekStart), toISODate(weekEnd));
+  const events = await listEventsBetween(toISODate(weekStart), toISODate(weekEnd));
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-10">

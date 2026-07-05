@@ -8,7 +8,7 @@ export async function GET(request) {
   if (!start || !end) {
     return NextResponse.json({ error: "start and end query params are required" }, { status: 400 });
   }
-  return NextResponse.json(listEventsBetween(start, end));
+  return NextResponse.json(await listEventsBetween(start, end));
 }
 
 export async function POST(request) {
@@ -19,6 +19,6 @@ export async function POST(request) {
     return NextResponse.json({ error: "title and date are required" }, { status: 400 });
   }
 
-  const id = createEvent({ title, type, date, start_time, end_time, location });
+  const id = await createEvent({ title, type, date, start_time, end_time, location });
   return NextResponse.json({ id }, { status: 201 });
 }

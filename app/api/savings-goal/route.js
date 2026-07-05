@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getSavingsGoal, setSavingsGoal } from "@/lib/goals";
 
 export async function GET() {
-  return NextResponse.json(getSavingsGoal());
+  return NextResponse.json(await getSavingsGoal());
 }
 
 export async function PUT(request) {
@@ -11,6 +11,6 @@ export async function PUT(request) {
   if (!target_amount) {
     return NextResponse.json({ error: "target_amount is required" }, { status: 400 });
   }
-  setSavingsGoal(body);
-  return NextResponse.json(getSavingsGoal());
+  await setSavingsGoal(body);
+  return NextResponse.json(await getSavingsGoal());
 }

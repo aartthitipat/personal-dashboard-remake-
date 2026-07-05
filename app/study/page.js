@@ -28,9 +28,9 @@ const MEMBERS = [
 
 export default async function StudyPage() {
   const histories = {
-    researcher: getResearcherHistory(),
-    debater: getDebaterHistory(),
-    teacher: getTeacherHistory(),
+    researcher: await getResearcherHistory(),
+    debater: await getDebaterHistory(),
+    teacher: await getTeacherHistory(),
   };
 
   return <StudyView members={MEMBERS} histories={histories} />;

@@ -3,7 +3,7 @@ import getDb from "@/lib/db";
 import { listTransactions } from "@/lib/summarizer";
 
 export async function GET() {
-  return NextResponse.json(listTransactions());
+  return NextResponse.json(await listTransactions());
 }
 
 export async function POST(request) {
@@ -15,12 +15,12 @@ export async function POST(request) {
   }
 
   const db = getDb();
-  const result = db
-    .prepare(
-      `INSERT INTO transactions (type, amount, vendor, category, date, status)
-       VALUES (?, ?, ?, ?, ?, 'completed')`
-    )
-    .run(type, amount, vendor, category, date);
+  const { rows } = await db.query(
+    `INSERT INTO transactions (type, amount, vendor, category, date, status)
+     VALUES ($1, $2, $3, $4, $5, 'completed')
+     RETURNING id`,
+    [type, amount, vendor, category, date]
+  );
 
-  return NextResponse.json({ id: result.lastInsertRowid }, { status: 201 });
+  return NextResponse.json({ id: rows[0].id }, { status: 201 });
 }

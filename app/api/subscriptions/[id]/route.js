@@ -3,6 +3,6 @@ import { deleteSubscription } from "@/lib/subscriptions";
 
 export async function DELETE(request, { params }) {
   const { id } = await params;
-  deleteSubscription(Number(id));
+  await deleteSubscription(Number(id));
   return NextResponse.json({ ok: true });
 }

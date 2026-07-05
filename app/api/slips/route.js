@@ -1,11 +1,7 @@
 import { NextResponse } from "next/server";
-import { mkdir, writeFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
-import path from "node:path";
-import getDb from "@/lib/db";
+import getDb, { getStorage } from "@/lib/db";
 import { extractSlipData, decideReviewStatus } from "@/lib/rude";
-
-const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads", "slips");
 
 // Signatures for the image types Claude's vision API accepts. We identify
 // the file by these magic bytes rather than the client-supplied filename or
@@ -70,18 +66,27 @@ export async function POST(request) {
     );
   }
 
-  await mkdir(UPLOAD_DIR, { recursive: true });
+  const supabase = getStorage();
   const filename = `${Date.now()}-${randomUUID()}${signature.ext}`;
-  await writeFile(path.join(UPLOAD_DIR, filename), buffer);
-  const slipImagePath = `/uploads/slips/${filename}`;
+  const { error: uploadError } = await supabase.storage
+    .from("slips")
+    .upload(filename, buffer, { contentType: signature.mediaType });
+  if (uploadError) {
+    return NextResponse.json(
+      { error: `Could not store the slip image: ${uploadError.message}` },
+      { status: 502 }
+    );
+  }
+  const {
+    data: { publicUrl: slipImagePath },
+  } = supabase.storage.from("slips").getPublicUrl(filename);
 
   const db = getDb();
-  const result = db
-    .prepare(
-      `INSERT INTO transactions (type, amount, vendor, category, date, status, slip_image_path, confidence)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
-    )
-    .run(
+  const { rows } = await db.query(
+    `INSERT INTO transactions (type, amount, vendor, category, date, status, slip_image_path, confidence)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+     RETURNING id`,
+    [
       extraction.type,
       extraction.amount,
       extraction.vendor,
@@ -89,8 +94,9 @@ export async function POST(request) {
       extraction.date,
       status,
       slipImagePath,
-      extraction.confidence
-    );
+      extraction.confidence,
+    ]
+  );
 
-  return NextResponse.json({ id: result.lastInsertRowid, ...extraction, status }, { status: 201 });
+  return NextResponse.json({ id: rows[0].id, ...extraction, status }, { status: 201 });
 }

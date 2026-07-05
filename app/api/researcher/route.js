@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getHistory, sendMessage } from "@/lib/researcher";
 
 export async function GET() {
-  return NextResponse.json(getHistory());
+  return NextResponse.json(await getHistory());
 }
 
 export async function POST(request) {
