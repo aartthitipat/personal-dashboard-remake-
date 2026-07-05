@@ -1,26 +1,147 @@
 @import "tailwindcss";
 
+/* Kinetic Logic design tokens (see stitch_personal_study_finance_dashboard/kinetic_logic/DESIGN.md) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-surface: #faf8ff;
+  --color-surface-dim: #d2d9f4;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f2f3ff;
+  --color-surface-container: #eaedff;
+  --color-surface-container-high: #e2e7ff;
+  --color-surface-container-highest: #dae2fd;
+  --color-on-surface: #131b2e;
+  --color-on-surface-variant: #434655;
+  --color-outline: #737686;
+  --color-outline-variant: #c3c6d7;
+
+  --color-primary: #004ac6;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #2563eb;
+  --color-on-primary-container: #eeefff;
+
+  --color-secondary: #505f76;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #d0e1fb;
+  --color-on-secondary-container: #54647a;
+
+  --color-tertiary: #525657;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #6b6e70;
+  --color-on-tertiary-container: #eff1f3;
+
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+
+  /* Semantic income/expense (not in source token set; chosen to fit the palette) */
+  --color-success: #15803d;
+  --color-on-success: #ffffff;
+  --color-success-container: #dcfce7;
+  --color-on-success-container: #166534;
+
+  --color-background: #faf8ff;
+  --color-on-background: #131b2e;
+  --color-surface-variant: #dae2fd;
+}
+
+/* Interlink Digital design tokens (dark mode) — see stitch_personal_study_finance_dashboard/interlink_digital/DESIGN.md */
+.dark {
+  --color-surface: #10131a;
+  --color-surface-dim: #10131a;
+  --color-surface-container-lowest: #0b0e14;
+  --color-surface-container-low: #181c22;
+  --color-surface-container: #1c2026;
+  --color-surface-container-high: #272a31;
+  --color-surface-container-highest: #31353c;
+  --color-on-surface: #e0e2eb;
+  --color-on-surface-variant: #c1c6d5;
+  --color-outline: #8b919f;
+  --color-outline-variant: #414753;
+
+  --color-primary: #aac7ff;
+  --color-on-primary: #002f64;
+  --color-primary-container: #1275e2;
+  --color-on-primary-container: #ffffff;
+
+  --color-secondary: #aec7f7;
+  --color-on-secondary: #143057;
+  --color-secondary-container: #2d476f;
+  --color-on-secondary-container: #9db6e4;
+
+  --color-tertiary: #ffb68c;
+  --color-on-tertiary: #532200;
+  --color-tertiary-container: #c05900;
+  --color-on-tertiary-container: #ffffff;
+
+  --color-error: #ffb4ab;
+  --color-on-error: #690005;
+  --color-error-container: #93000a;
+  --color-on-error-container: #ffdad6;
+
+  --color-success: #8fdba1;
+  --color-on-success: #00391c;
+  --color-success-container: #005224;
+  --color-on-success-container: #abf4b7;
+
+  --color-background: #10131a;
+  --color-on-background: #e0e2eb;
+  --color-surface-variant: #31353c;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-surface: var(--color-surface);
+  --color-surface-dim: var(--color-surface-dim);
+  --color-surface-container-lowest: var(--color-surface-container-lowest);
+  --color-surface-container-low: var(--color-surface-container-low);
+  --color-surface-container: var(--color-surface-container);
+  --color-surface-container-high: var(--color-surface-container-high);
+  --color-surface-container-highest: var(--color-surface-container-highest);
+  --color-on-surface: var(--color-on-surface);
+  --color-on-surface-variant: var(--color-on-surface-variant);
+  --color-outline: var(--color-outline);
+  --color-outline-variant: var(--color-outline-variant);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-primary: var(--color-primary);
+  --color-on-primary: var(--color-on-primary);
+  --color-primary-container: var(--color-primary-container);
+  --color-on-primary-container: var(--color-on-primary-container);
+
+  --color-secondary: var(--color-secondary);
+  --color-on-secondary: var(--color-on-secondary);
+  --color-secondary-container: var(--color-secondary-container);
+  --color-on-secondary-container: var(--color-on-secondary-container);
+
+  --color-tertiary: var(--color-tertiary);
+  --color-on-tertiary: var(--color-on-tertiary);
+  --color-tertiary-container: var(--color-tertiary-container);
+  --color-on-tertiary-container: var(--color-on-tertiary-container);
+
+  --color-error: var(--color-error);
+  --color-on-error: var(--color-on-error);
+  --color-error-container: var(--color-error-container);
+  --color-on-error-container: var(--color-on-error-container);
+
+  --color-success: var(--color-success);
+  --color-on-success: var(--color-on-success);
+  --color-success-container: var(--color-success-container);
+  --color-on-success-container: var(--color-on-success-container);
+
+  --color-background: var(--color-background);
+  --color-on-background: var(--color-on-background);
+  --color-surface-variant: var(--color-surface-variant);
+
+  --font-heading: var(--font-geist-sans);
+  --font-body: var(--font-inter);
+  --font-mono: var(--font-geist-mono);
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
